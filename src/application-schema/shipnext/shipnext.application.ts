@@ -7,6 +7,7 @@ import {
   ShipRateSymbols,
   ShipDepartmentSymbols,
   ShipDonationSymbols,
+  ShipStatementSymbols,
 } from './collections/collections.ioc.symbols';
 
 import { IAbstractCollector } from '@Documents/Types';
@@ -17,7 +18,8 @@ export class ShipNextApplication extends AbstractApplication {
   protected readonly _collectors: Set<IAbstractCollector> = new Set<IAbstractCollector>()
     .add(this._shipRateCollector)
     .add(this._shipDepartmentCollector)
-    .add(this._shipDonationCollector);
+    .add(this._shipDonationCollector)
+    .add(this._shipStatementCollector);
 
   constructor(
     @inject(ShipRateSymbols.Collector)
@@ -25,7 +27,9 @@ export class ShipNextApplication extends AbstractApplication {
     @inject(ShipDepartmentSymbols.Collector)
     private _shipDepartmentCollector: IAbstractCollector,
     @inject(ShipDonationSymbols.Collector)
-    private _shipDonationCollector: IAbstractCollector
+    private _shipDonationCollector: IAbstractCollector,
+    @inject(ShipStatementSymbols.Collector)
+    private _shipStatementCollector: IAbstractCollector
   ) {
     super();
   }
