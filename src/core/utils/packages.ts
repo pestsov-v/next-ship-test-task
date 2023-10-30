@@ -6,6 +6,8 @@ import { injectable, inject, ContainerModule, Container } from 'inversify';
 import nconf from 'nconf';
 import winston from 'winston';
 import colors from 'colors';
+import fastify from 'fastify';
+import { v4 } from 'uuid';
 
 export class Packages {
   public static get os() {
@@ -22,6 +24,14 @@ export class Packages {
 
   public static get inversify() {
     return { injectable, inject, ContainerModule, Container };
+  }
+
+  public static get fastify() {
+    return { fastify };
+  }
+
+  public static get uuid() {
+    return { v4 };
   }
 
   public static get nconf() {
