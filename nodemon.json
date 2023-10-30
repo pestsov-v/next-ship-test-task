@@ -1,0 +1,11 @@
+{
+  "watch": ["src/"],
+  "ext": "ts,js,json,d.ts",
+  "ignore": ["node_modules", "coverage", "dist"],
+  "exec": "ts-node -r tsconfig-paths/register --files ./src/core/core.ts",
+  "restartable": "rs",
+  "env": {
+    "NODE_ENV": "dev",
+    "SERVER_MODE": "nextship"
+  }
+}
