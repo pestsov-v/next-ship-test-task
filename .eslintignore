@@ -1,0 +1,10 @@
+dist/
+node_modules/
+.eslintignore
+.gitignore
+.prettierignore
+package.json
+package-lock.json
+README.md
+types
+jest.config.js
