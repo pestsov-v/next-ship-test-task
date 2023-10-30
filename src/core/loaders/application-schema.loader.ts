@@ -17,6 +17,21 @@ export class ApplicationSchemaLoader implements IApplicationSchemaLoader {
     return this._appSchema;
   }
 
+  public get mongoSchemas(): NApplicationSchemaLoader.CollectionMongoSchema[] {
+    if (!this._appSchema) throw this._throwAppSchemaError();
+
+    const schemas: NApplicationSchemaLoader.CollectionMongoSchema[] = [];
+    this._appSchema.forEach((application) => {
+      application.collections.forEach((collection) => {
+        if (collection.mongoSchema) {
+          schemas.push(collection.mongoSchema);
+        }
+      });
+    });
+
+    return schemas;
+  }
+
   public setApplication(name: string): void {
     if (!this._appSchema) throw this._throwAppSchemaError();
 
@@ -76,7 +91,25 @@ export class ApplicationSchemaLoader implements IApplicationSchemaLoader {
     collection.routes.set(params.name, route);
   }
 
+  public setMongoSchema<Schema>(details: NApplicationSchemaLoader.MongoSchemaDetails): void {
+    const application = this.appSchema.get(details.application);
+    if (!application) {
+      this.setApplication(details.application);
+      this.setMongoSchema<Schema>(details);
+      return;
+    }
+    const collection = application.collections.get(details.collection);
+    if (!collection) {
+      this._setCollection(application, details.collection);
+      this.setMongoSchema<Schema>(details);
+      return;
+    } else {
+      collection.mongoSchema = details.schema;
+    }
+  }
+
   private _throwAppSchemaError(): Error {
+    // TODO:
     return new Error('Application schema not initialize');
   }
 }

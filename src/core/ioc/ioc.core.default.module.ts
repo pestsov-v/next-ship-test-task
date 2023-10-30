@@ -7,6 +7,8 @@ import { DiscoveryService, GetawayService, LoggerService, AsyncStorageService } 
 import { FastifyFrameworkAdapter } from '../adapters/framework/fastify.framework.adapter';
 import { FrameworkFactory } from '../factories/framework.factory';
 import { BusinessAgent } from '../agents/business.agent';
+import { ApplicationSchemaLoader } from '../loaders';
+import { MongodbProvider } from '../providers/mongodb.provider';
 
 import { Inversify } from '@Packages/Types';
 import {
@@ -20,9 +22,9 @@ import {
   IInitiator,
   ILoggerService,
   IMongodbConnector,
+  IMongodbProvider,
   IServicesConnector,
 } from '@Core/Types';
-import { ApplicationSchemaLoader } from '../loaders';
 
 export const CoreDefaultBinds = new ContainerModule((bind: Inversify.interfaces.Bind) => {
   // Initiator
@@ -52,6 +54,9 @@ export const CoreDefaultBinds = new ContainerModule((bind: Inversify.interfaces.
   bind<IApplicationSchemaLoader>(CoreSymbols.ApplicationSchemaLoader)
     .to(ApplicationSchemaLoader)
     .inSingletonScope();
+
+  // Providers
+  bind<IMongodbProvider>(CoreSymbols.MongodbProvider).to(MongodbProvider).inTransientScope();
 
   // Agents
   bind<IBusinessAgent>(CoreSymbols.BusinessAgent).to(BusinessAgent).inSingletonScope();
