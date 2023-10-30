@@ -10,6 +10,7 @@ import colors from 'colors';
 import fastify from 'fastify';
 import { v4 } from 'uuid';
 import mongoose from 'mongoose';
+import { EventEmitter } from 'events';
 
 export class Packages {
   public static get os() {
@@ -26,6 +27,10 @@ export class Packages {
 
   public static get async_hooks() {
     return { AsyncLocalStorage };
+  }
+
+  public static get events() {
+    return { EventEmitter };
   }
 
   public static get inversify() {
