@@ -12,6 +12,7 @@ import { Inversify } from '@Packages/Types';
 import {
   IAbstractFactory,
   IAbstractFrameworkAdapter,
+  IApplicationSchemaLoader,
   IAsyncStorageService,
   IBusinessAgent,
   IDiscoveryService,
@@ -20,6 +21,7 @@ import {
   ILoggerService,
   IServicesConnector,
 } from '@Core/Types';
+import { ApplicationSchemaLoader } from '../loaders';
 
 export const CoreDefaultBinds = new ContainerModule((bind: Inversify.interfaces.Bind) => {
   // Initiator
@@ -42,6 +44,11 @@ export const CoreDefaultBinds = new ContainerModule((bind: Inversify.interfaces.
   bind<IGetawayService>(CoreSymbols.GetawayService).to(GetawayService).inSingletonScope();
   bind<IAsyncStorageService>(CoreSymbols.AsyncStorageService)
     .to(AsyncStorageService)
+    .inSingletonScope();
+
+  // Loaders
+  bind<IApplicationSchemaLoader>(CoreSymbols.ApplicationSchemaLoader)
+    .to(ApplicationSchemaLoader)
     .inSingletonScope();
 
   // Agents

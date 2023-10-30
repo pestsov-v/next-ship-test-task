@@ -19,4 +19,7 @@ export const CoreSymbols = {
 
   // Agents
   BusinessAgent: Symbol('BusinessAgent'),
+
+  // Loaders
+  ApplicationSchemaLoader: Symbol('ApplicationSchemaLoader'),
 } as const;
