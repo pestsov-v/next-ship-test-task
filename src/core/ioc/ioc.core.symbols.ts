@@ -17,6 +17,7 @@ export const CoreSymbols = {
   LoggerService: Symbol('LoggerService'),
   GetawayService: Symbol('GetawayService'),
   AsyncStorageService: Symbol('AsyncStorageService'),
+  StreamsService: Symbol('StreamsService'),
 
   // Providers
   MongodbProvider: Symbol('MongodbProvider'),

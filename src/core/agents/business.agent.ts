@@ -2,6 +2,7 @@ import { Packages } from '@Packages';
 const { injectable, inject } = Packages.inversify;
 import { CoreSymbols } from '@CoreSymbols';
 import { Mongoose } from '@Packages/Types';
+import { Nullable, UUID } from '@Utility/Types';
 
 import {
   IAsyncStorageService,
@@ -9,10 +10,12 @@ import {
   IDiscoveryService,
   ILoggerService,
   IMongodbProvider,
+  IStreamsService,
   NBusinessAgent,
   NDiscoveryService,
   NLoggerService,
   NMongodbProvider,
+  NStreamsService,
 } from '@Core/Types';
 
 @injectable()
@@ -24,6 +27,8 @@ export class BusinessAgent implements IBusinessAgent {
     private _loggerService: ILoggerService,
     @inject(CoreSymbols.AsyncStorageService)
     private _asyncStorageService: IAsyncStorageService,
+    @inject(CoreSymbols.StreamsService)
+    private _streamsService: IStreamsService,
     @inject(CoreSymbols.MongodbProvider)
     private _mongodbProvider: IMongodbProvider
   ) {}
@@ -89,6 +94,17 @@ export class BusinessAgent implements IBusinessAgent {
         details: NMongodbProvider.InsertManyDetails<TRowDocType>
       ): Promise<Mongoose.InsertManyResult<TRowDocType>> => {
         return this._mongodbProvider.insertMany<TRowDocType>(model, details);
+      },
+    };
+  }
+
+  public get streams(): NBusinessAgent.Streams {
+    return {
+      getFile: (streamId: UUID): Nullable<NStreamsService.StreamStorage> => {
+        return this._streamsService.getFile(streamId);
+      },
+      getFileBuffer: (streamId: UUID): Nullable<Buffer> => {
+        return this._streamsService.getFileBuffer(streamId);
       },
     };
   }

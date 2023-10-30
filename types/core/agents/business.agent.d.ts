@@ -1,12 +1,14 @@
-import { NDiscoveryService, NLoggerService } from '../services';
+import { NDiscoveryService, NLoggerService, NStreamsService } from '../services';
 
 import { NMongodbProvider } from '../providers';
 import { Mongoose } from '@Packages/Types';
+import { Nullable, UUID } from '@Utility/Types';
 
 export interface IBusinessAgent {
   readonly discovery: NBusinessAgent.Discovery;
   readonly logger: NBusinessAgent.Logger;
   readonly mongoose: NBusinessAgent.Mongoose;
+  readonly streams: NBusinessAgent.Streams;
 }
 
 export namespace NBusinessAgent {
@@ -36,5 +38,10 @@ export namespace NBusinessAgent {
       model: string,
       details: NMongodbProvider.InsertManyDetails<TRowDocType>
     ) => Promise<Mongoose.InsertManyResult<TRowDocType>>;
+  };
+
+  export type Streams = {
+    getFile: (streamId: UUID) => Nullable<NStreamsService.StreamStorage>;
+    getFileBuffer: (streamId: UUID) => Nullable<Buffer>;
   };
 }
