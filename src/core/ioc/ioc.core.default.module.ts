@@ -6,6 +6,7 @@ import { ServiceConnector } from '../connectors';
 import { DiscoveryService, GetawayService, LoggerService, AsyncStorageService } from '../services';
 import { FastifyFrameworkAdapter } from '../adapters/framework/fastify.framework.adapter';
 import { FrameworkFactory } from '../factories/framework.factory';
+import { BusinessAgent } from '../agents/business.agent';
 
 import { Inversify } from '@Packages/Types';
 import {
@@ -42,4 +43,7 @@ export const CoreDefaultBinds = new ContainerModule((bind: Inversify.interfaces.
   bind<IAsyncStorageService>(CoreSymbols.AsyncStorageService)
     .to(AsyncStorageService)
     .inSingletonScope();
+
+  // Agents
+  bind<IBusinessAgent>(CoreSymbols.BusinessAgent).to(BusinessAgent).inSingletonScope();
 });
