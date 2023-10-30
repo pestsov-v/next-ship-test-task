@@ -4,4 +4,7 @@ export const CoreSymbols = {
 
   // Connectors
   ServiceConnector: Symbol('ServiceConnector'),
+
+  // Services
+  DiscoveryService: Symbol('DiscoveryService'),
 } as const;
