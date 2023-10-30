@@ -15,7 +15,8 @@
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.2.2",
-    "nconf": "^0.12.0"
+    "nconf": "^0.12.0",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "@types/node": "^20.8.9",
