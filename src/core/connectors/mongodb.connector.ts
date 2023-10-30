@@ -1,6 +1,7 @@
 import { Packages } from '@Packages';
 const { injectable, inject } = Packages.inversify;
 const { mongoose } = Packages.mongoose;
+const { EventEmitter } = Packages.events;
 import { AbstractConnector } from './abstract.connector';
 
 import {
@@ -14,6 +15,7 @@ import { CoreSymbols } from '@CoreSymbols';
 
 @injectable()
 export class MongodbConnector extends AbstractConnector implements IMongodbConnector {
+  private _emitter = new EventEmitter();
   private _mongoose: Mongoose.Mongoose | undefined;
   private _config: NMongodbConnector.Config | undefined;
 
@@ -83,6 +85,8 @@ export class MongodbConnector extends AbstractConnector implements IMongodbConne
     try {
       this._mongoose = await mongoose.connect(url, connectionOpts);
       console.log(`Mongodb connector has been started on ${url}`);
+
+      this._emit('mongodb:connector:init');
     } catch (e: any) {
       this._loggerService.error(e, {
         type: 'core',
@@ -107,5 +111,13 @@ export class MongodbConnector extends AbstractConnector implements IMongodbConne
     }
 
     return this._mongoose;
+  }
+
+  private _emit(event: string): void {
+    this._emitter.emit(event);
+  }
+
+  public on(event: string, listener: () => void): void {
+    this._emitter.on(event, listener);
   }
 }

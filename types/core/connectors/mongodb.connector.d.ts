@@ -3,6 +3,7 @@ import { Mongoose } from '@Packages/Types';
 
 export interface IMongodbConnector extends IAbstractConnector {
   readonly connection: Mongoose.Mongoose;
+  on(event: string, listener: () => void): void;
 }
 
 export namespace NMongodbConnector {

@@ -1,5 +1,6 @@
 import { Packages } from '@Packages';
 const { injectable } = Packages.inversify;
+import { ResponseType } from '@Common';
 
 import {
   IAbstractFrameworkAdapter,
@@ -7,7 +8,6 @@ import {
   ILoggerService,
   NAbstractFrameworkAdapter,
 } from '@Core/Types';
-import { ResponseType } from '@Common';
 
 @injectable()
 export abstract class AbstractFrameworkAdapter implements IAbstractFrameworkAdapter {
