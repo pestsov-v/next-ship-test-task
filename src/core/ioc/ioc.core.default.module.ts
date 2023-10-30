@@ -2,7 +2,7 @@ import { Packages } from '@Packages';
 const { ContainerModule } = Packages.inversify;
 import { CoreSymbols } from '@CoreSymbols';
 import { Initiator } from '../initiator';
-import { ServiceConnector } from '../connectors';
+import { MongodbConnector, ServiceConnector } from '../connectors';
 import { DiscoveryService, GetawayService, LoggerService, AsyncStorageService } from '../services';
 import { FastifyFrameworkAdapter } from '../adapters/framework/fastify.framework.adapter';
 import { FrameworkFactory } from '../factories/framework.factory';
@@ -19,6 +19,7 @@ import {
   IGetawayService,
   IInitiator,
   ILoggerService,
+  IMongodbConnector,
   IServicesConnector,
 } from '@Core/Types';
 import { ApplicationSchemaLoader } from '../loaders';
@@ -29,6 +30,7 @@ export const CoreDefaultBinds = new ContainerModule((bind: Inversify.interfaces.
 
   // Connectors
   bind<IServicesConnector>(CoreSymbols.ServiceConnector).to(ServiceConnector).inSingletonScope();
+  bind<IMongodbConnector>(CoreSymbols.MongoDBConnector).to(MongodbConnector).inSingletonScope();
 
   // Framework adapters
   bind<IAbstractFrameworkAdapter>(CoreSymbols.FastifyFrameworkAdapter)

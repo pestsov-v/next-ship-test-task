@@ -1,0 +1,11 @@
+{
+  "enable": true,
+  "protocol": "mongodb",
+  "host": "localhost",
+  "port": 27017,
+  "database": "nisu",
+  "auth": {
+    "username": "root",
+    "password": "root"
+  }
+}

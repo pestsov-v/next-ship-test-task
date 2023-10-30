@@ -4,6 +4,7 @@ export const CoreSymbols = {
 
   // Connectors
   ServiceConnector: Symbol('ServiceConnector'),
+  MongoDBConnector: Symbol('MongoDBConnector'),
 
   // Framework adapters
   FastifyFrameworkAdapter: Symbol('FastifyFrameworkAdapter'),

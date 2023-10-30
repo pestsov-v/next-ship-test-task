@@ -9,6 +9,7 @@ import winston from 'winston';
 import colors from 'colors';
 import fastify from 'fastify';
 import { v4 } from 'uuid';
+import mongoose from 'mongoose';
 
 export class Packages {
   public static get os() {
@@ -49,6 +50,10 @@ export class Packages {
       format: winston.format,
       transports: winston.transports,
     };
+  }
+
+  public static get mongoose() {
+    return { models: mongoose.models, mongoose };
   }
 
   public static get colors() {
