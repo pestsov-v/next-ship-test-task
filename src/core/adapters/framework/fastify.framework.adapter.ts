@@ -1,6 +1,7 @@
 import { Packages } from '@Packages';
 const { injectable, inject } = Packages.inversify;
 const { fastify } = Packages.fastify;
+const { v4 } = Packages.uuid;
 import { CoreSymbols } from '@CoreSymbols';
 import { ResponseType, SchemaHeaders, StatusCode } from '@Common';
 import { Guards } from '../../utils/guards';
@@ -15,6 +16,7 @@ import {
   ILoggerService,
   IStreamsService,
   NAbstractFrameworkAdapter,
+  NAsyncStorageService,
   NStreamsService,
 } from '@Core/Types';
 import { HttpResponseType, HTTPStatusCode } from '@Utility/Types';
@@ -114,14 +116,92 @@ export class FastifyFrameworkAdapter
   protected _apiHandler = async (
     req: NAbstractFrameworkAdapter.Request,
     res: NAbstractFrameworkAdapter.Response
-  ): Promise<void> => {};
+  ): Promise<void> => {
+    const params = req.params as NAbstractFrameworkAdapter.SchemaParams;
+
+    const application = this._applicationSchemaLoader.appSchema.get(params.application);
+    if (!application) {
+      return res.status(StatusCode.NOT_FOUND).send(this._getNotFoundMessage('application'));
+    }
+    const coll = application.collections.get(params.collection);
+    if (!coll) {
+      return res.status(StatusCode.NOT_FOUND).send(this._getNotFoundMessage('collection'));
+    }
+
+    const action = params.version + '/' + params.action + '{{' + req.method.toUpperCase() + '}}';
+    const route = coll.routes.get(action);
+    if (!route) {
+      return res.status(StatusCode.NOT_FOUND).send(this._getNotFoundMessage('action'));
+    }
+
+    if (route.method.toUpperCase() !== req.method.toUpperCase()) {
+      return res.status(StatusCode.NOT_FOUND).send(this._getNotFoundMessage('method'));
+    }
+
+    const context = {};
+    if (route.isPrivateUser) {
+      // TODO: check the user session and set session info to context or throw error
+      if (route.isPrivateOrganization) {
+        // TODO: check the user session and set organization info to context or throw error
+      }
+    }
+
+    if (route.isStreamData) {
+      // TODO: validate stream info and set stream info to context or throw error
+    }
+
+    const store: NAsyncStorageService.Store = {
+      requestId: v4(),
+      version: params.version,
+      collection: params.collection,
+      method: req.method,
+      action: params.action,
+      application: params.application,
+      path: req.url,
+      ip: req.ip,
+    };
+
+    await this._asyncStorageService.storage.run(store, async (): Promise<void> => {
+      try {
+        const result = await route.handler(req, { businessAgent: this._businessAgent }, context);
+        if (result) {
+          if (result.headers) {
+            for (const header in result.headers) {
+              res.header(header, result.headers[header]);
+            }
+          }
+
+          switch (result.format) {
+            case 'json':
+              return res.status(result.status).send({
+                status: this._getRequestType({
+                  status: result.status,
+                  responseType: result.responseType,
+                }),
+                data: result.data,
+              });
+            case 'sendStatus':
+              return res.status(result.status).send();
+            default:
+              return res.status(StatusCode.NOT_FOUND).send({
+                status: ResponseType.FAIL,
+              });
+          }
+        } else {
+          return res.status(StatusCode.NO_CONTENT).send();
+        }
+      } catch (e) {}
+
+      return res.status(204).send();
+    });
+  };
 
   protected _streamsHandler = async (
     req: NAbstractFrameworkAdapter.Request,
     res: NAbstractFrameworkAdapter.Response
   ): Promise<void> => {
     if (!this._config) {
-      throw new Error('Config not initialize');
+      throw new Error('');
     }
 
     if (!Guards.tgIsSchemaHeadersExists(req.headers)) {
