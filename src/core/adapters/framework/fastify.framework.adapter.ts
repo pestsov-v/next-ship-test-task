@@ -201,7 +201,7 @@ export class FastifyFrameworkAdapter
     res: NAbstractFrameworkAdapter.Response
   ): Promise<void> => {
     if (!this._config) {
-      throw new Error('');
+      throw new Error('Config not initialise');
     }
 
     if (!Guards.tgIsSchemaHeadersExists(req.headers)) {
