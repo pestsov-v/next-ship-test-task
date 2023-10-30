@@ -11,17 +11,21 @@
   "license": "ISC",
   "dependencies": {
     "colors": "^1.4.0",
+    "fastify": "^4.24.3",
+    "@fastify/multipart": "^6.0.0",
     "inversify": "^6.0.2",
     "nconf": "^0.12.0",
     "reflect-metadata": "^0.1.13",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.2.2",
-    "winston": "^3.11.0"
+    "winston": "^3.11.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/nconf": "^0.10.5",
     "@types/node": "^20.8.9",
+    "@types/uuid": "^9.0.6",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
     "eslint": "^8.34.0",

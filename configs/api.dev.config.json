@@ -1,0 +1,13 @@
+{
+  "framework": "fastify",
+  "connect": {
+    "protocol": "http",
+    "host": "localhost",
+    "port": "23012"
+  },
+  "urls": {
+    "api": "/v1/call/api"
+  },
+  "serverTag": "NEXT_SHIP_01",
+  "business-schema-path": "/home/pescov/Documents/GitHub/next-ship-test-task/src/application-schema/applications-schema.ts"
+}
