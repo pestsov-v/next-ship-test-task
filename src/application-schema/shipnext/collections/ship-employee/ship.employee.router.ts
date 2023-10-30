@@ -23,7 +23,7 @@ export class ShipEmployeeRouter extends AbstractRouter implements IAbstractRoute
       isStreamData: false,
       path: this._paths.GET_EMPLOYEES_SALARIES,
       method: 'GET',
-      handler: this._shipEmployeeController.getEmployeesSalaries,
+      handler: this._shipEmployeeController.calculateEmployeeRemuneration,
       isPrivateUser: false,
       isPrivateOrganization: false,
     },

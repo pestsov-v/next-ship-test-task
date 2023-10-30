@@ -16,7 +16,7 @@ export namespace NShipEmployee {
   export interface EmployeeDocument extends Mongoose.Document, EmployeeStructure {}
 
   export interface IController {
-    getEmployeesSalaries: NAbstractFrameworkAdapter.Handler;
+    calculateEmployeeRemuneration: NAbstractFrameworkAdapter.Handler;
   }
 
   export interface IMongoRepository {
