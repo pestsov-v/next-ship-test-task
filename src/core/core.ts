@@ -1,1 +1,1 @@
-console.log('run prettier')
+console.log('run prettier');
