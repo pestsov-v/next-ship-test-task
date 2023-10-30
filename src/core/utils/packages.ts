@@ -1,6 +1,7 @@
 import os from 'os';
 import path from 'path';
 import fs from 'fs';
+import { AsyncLocalStorage } from 'async_hooks';
 
 import { injectable, inject, ContainerModule, Container } from 'inversify';
 import nconf from 'nconf';
@@ -20,6 +21,10 @@ export class Packages {
 
   public static get fs() {
     return { pfs: fs.promises, fs: fs };
+  }
+
+  public static get async_hooks() {
+    return { AsyncLocalStorage };
   }
 
   public static get inversify() {

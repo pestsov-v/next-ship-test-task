@@ -3,6 +3,7 @@ import nconf from 'nconf';
 import winston from 'winston';
 import fastify from 'fastify';
 import colors from 'colors';
+import async_hooks from 'async_hooks';
 
 export namespace Inversify {
   export namespace interfaces {
@@ -77,4 +78,8 @@ export namespace Fastify {
     | SendStatusFastifyBusinessResponse
     | SendFileFastifyBusinessResponse
     | void;
+}
+
+export namespace AsyncHooks {
+  export type AsyncLocalStorage<T> = async_hooks.AsyncLocalStorage<T>;
 }
