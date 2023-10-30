@@ -24,6 +24,7 @@ export abstract class AbstractRouter implements IAbstractRouter {
           path: route.path,
           name: route.path + '{{' + route.method + '}}',
           isStreamData: route.isStreamData,
+          streamType: route.streamType,
         };
       } else {
         details = {

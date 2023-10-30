@@ -29,6 +29,7 @@ export namespace NApplicationSchemaLoader {
 
   export interface FormDataCollectionRoute extends BaseCollectionRoute, StandardCollectionRoute {
     isStreamData: true;
+    streamType: NStreamsService.StreamType;
   }
 
   export type CollectionRoute = StandardCollectionRoute | FormDataCollectionRoute;
@@ -57,6 +58,7 @@ export namespace NApplicationSchemaLoader {
 
   export interface StreamRouteDetails extends BaseRouteDetails {
     isStreamData: true;
+    streamType: NStreamsService.StreamType;
   }
 
   export type RouteDetails = StandardRouteDetails | StreamRouteDetails;
