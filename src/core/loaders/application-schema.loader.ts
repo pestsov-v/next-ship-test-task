@@ -76,6 +76,7 @@ export class ApplicationSchemaLoader implements IApplicationSchemaLoader {
         isPrivateUser: params.route.isPrivateUser ?? false,
         isPrivateOrganization: params.route.isPrivateOrganization ?? false,
         isStreamData: true,
+        streamType: params.streamType,
       };
     } else {
       route = {
@@ -109,7 +110,6 @@ export class ApplicationSchemaLoader implements IApplicationSchemaLoader {
   }
 
   private _throwAppSchemaError(): Error {
-    // TODO:
     return new Error('Application schema not initialize');
   }
 }
