@@ -1,0 +1,12 @@
+/dist/
+ /log/
+ /schemas/
+ /system/
+ /business/
+ .eslintignore
+ .gitignore
+ .prettierignore
+ package-lock.json
+ LICENSE
+ /.nyc_output/
+ /coverage/
