@@ -15,4 +15,11 @@ export const CoreSymbols = {
   DiscoveryService: Symbol('DiscoveryService'),
   LoggerService: Symbol('LoggerService'),
   GetawayService: Symbol('GetawayService'),
+  AsyncStorageService: Symbol('AsyncStorageService'),
+
+  // Agents
+  BusinessAgent: Symbol('BusinessAgent'),
+
+  // Loaders
+  ApplicationSchemaLoader: Symbol('ApplicationSchemaLoader'),
 } as const;

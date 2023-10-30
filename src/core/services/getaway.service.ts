@@ -3,8 +3,10 @@ const { injectable, inject } = Packages.inversify;
 import { CoreSymbols } from '@CoreSymbols';
 import { AbstractService } from './abstract.service';
 
+import { IAbstractApplicationList } from '@Documents/Types';
 import {
   IAbstractFactory,
+  IApplicationSchemaLoader,
   IDiscoveryService,
   IGetawayService,
   ILoggerService,
@@ -15,6 +17,7 @@ import {
 export class GetawayService extends AbstractService implements IGetawayService {
   protected readonly _SERVICE_NAME = GetawayService.name;
   private _config: NGetawayService.Config | undefined;
+  private _APP_SCHEMA: IAbstractApplicationList | undefined;
 
   constructor(
     @inject(CoreSymbols.DiscoveryService)
@@ -22,7 +25,9 @@ export class GetawayService extends AbstractService implements IGetawayService {
     @inject(CoreSymbols.LoggerService)
     protected _loggerService: ILoggerService,
     @inject(CoreSymbols.FrameworkFactory)
-    private _frameworkFactory: IAbstractFactory
+    private _frameworkFactory: IAbstractFactory,
+    @inject(CoreSymbols.ApplicationSchemaLoader)
+    private _applicationSchemaLoader: IApplicationSchemaLoader
   ) {
     super();
   }
@@ -39,6 +44,13 @@ export class GetawayService extends AbstractService implements IGetawayService {
     if (!this._config) throw this._getConfigError();
 
     try {
+      await this._applicationSchemaLoader.init();
+
+      const { apps } = await import(this._config.appsPath);
+
+      this._APP_SCHEMA = apps;
+      apps.setAppToSchema(this._applicationSchemaLoader);
+
       await this._frameworkFactory.start();
       return true;
     } catch (e) {
@@ -53,10 +65,10 @@ export class GetawayService extends AbstractService implements IGetawayService {
 
   protected async destroy(): Promise<void> {
     this._config = undefined;
+    this._APP_SCHEMA = undefined;
   }
 
   private _getConfigError() {
-    // TODO:
     return new Error('Config not set');
   }
 }

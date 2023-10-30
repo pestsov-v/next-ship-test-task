@@ -5,6 +5,7 @@ import { CoreSymbols } from '@CoreSymbols';
 import { AbstractConnector } from './abstract.connector';
 
 import {
+  IAsyncStorageService,
   IDiscoveryService,
   IGetawayService,
   ILoggerService,
@@ -19,7 +20,9 @@ export class ServiceConnector extends AbstractConnector implements IServicesConn
     @inject(CoreSymbols.LoggerService)
     private _loggerService: ILoggerService,
     @inject(CoreSymbols.GetawayService)
-    private _getawayService: IGetawayService
+    private _getawayService: IGetawayService,
+    @inject(CoreSymbols.AsyncStorageService)
+    private _asyncStorageService: IAsyncStorageService
   ) {
     super();
   }
@@ -28,9 +31,11 @@ export class ServiceConnector extends AbstractConnector implements IServicesConn
     await this._discoveryService.start();
     await this._loggerService.start();
     await this._getawayService.start();
+    await this._asyncStorageService.start();
   }
 
   public async stop(): Promise<void> {
+    await this._asyncStorageService.stop();
     await this._getawayService.stop();
     await this._loggerService.stop();
     await this._discoveryService.stop();
