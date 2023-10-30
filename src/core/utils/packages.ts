@@ -4,6 +4,8 @@ import fs from 'fs';
 
 import { injectable, inject, ContainerModule, Container } from 'inversify';
 import nconf from 'nconf';
+import winston from 'winston';
+import colors from 'colors';
 
 export class Packages {
   public static get os() {
@@ -24,5 +26,17 @@ export class Packages {
 
   public static get nconf() {
     return { nconf };
+  }
+
+  public static get winston() {
+    return {
+      Container: winston.Container,
+      format: winston.format,
+      transports: winston.transports,
+    };
+  }
+
+  public static get colors() {
+    return { colors };
   }
 }

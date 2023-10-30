@@ -15,6 +15,7 @@ export class DiscoveryService extends AbstractService implements IDiscoveryServi
 
   private _nconf: Nconf.Provider | undefined;
   protected _discoveryService = this;
+  protected _loggerService = undefined;
 
   protected async init(): Promise<boolean> {
     this._nconf = nconf;
