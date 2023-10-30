@@ -10,6 +10,7 @@ import {
   IDiscoveryService,
   IGetawayService,
   ILoggerService,
+  IMongodbProvider,
   NGetawayService,
 } from '@Core/Types';
 
@@ -27,7 +28,9 @@ export class GetawayService extends AbstractService implements IGetawayService {
     @inject(CoreSymbols.FrameworkFactory)
     private _frameworkFactory: IAbstractFactory,
     @inject(CoreSymbols.ApplicationSchemaLoader)
-    private _applicationSchemaLoader: IApplicationSchemaLoader
+    private _applicationSchemaLoader: IApplicationSchemaLoader,
+    @inject(CoreSymbols.MongodbProvider)
+    private _mongodbProvider: IMongodbProvider
   ) {
     super();
   }
@@ -50,6 +53,7 @@ export class GetawayService extends AbstractService implements IGetawayService {
 
       this._APP_SCHEMA = apps;
       apps.setAppToSchema(this._applicationSchemaLoader);
+      this._mongodbProvider.setMongoModel(this._applicationSchemaLoader.mongoSchemas);
 
       await this._frameworkFactory.start();
       return true;

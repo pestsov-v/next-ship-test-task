@@ -4,6 +4,7 @@ export const CoreSymbols = {
 
   // Connectors
   ServiceConnector: Symbol('ServiceConnector'),
+  MongoDBConnector: Symbol('MongoDBConnector'),
 
   // Framework adapters
   FastifyFrameworkAdapter: Symbol('FastifyFrameworkAdapter'),
@@ -16,6 +17,9 @@ export const CoreSymbols = {
   LoggerService: Symbol('LoggerService'),
   GetawayService: Symbol('GetawayService'),
   AsyncStorageService: Symbol('AsyncStorageService'),
+
+  // Providers
+  MongodbProvider: Symbol('MongodbProvider'),
 
   // Agents
   BusinessAgent: Symbol('BusinessAgent'),

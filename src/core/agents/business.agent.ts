@@ -1,15 +1,18 @@
 import { Packages } from '@Packages';
 const { injectable, inject } = Packages.inversify;
 import { CoreSymbols } from '@CoreSymbols';
+import { Mongoose } from '@Packages/Types';
 
 import {
   IAsyncStorageService,
   IBusinessAgent,
   IDiscoveryService,
   ILoggerService,
+  IMongodbProvider,
   NBusinessAgent,
   NDiscoveryService,
   NLoggerService,
+  NMongodbProvider,
 } from '@Core/Types';
 
 @injectable()
@@ -20,7 +23,9 @@ export class BusinessAgent implements IBusinessAgent {
     @inject(CoreSymbols.LoggerService)
     private _loggerService: ILoggerService,
     @inject(CoreSymbols.AsyncStorageService)
-    private _asyncStorageService: IAsyncStorageService
+    private _asyncStorageService: IAsyncStorageService,
+    @inject(CoreSymbols.MongodbProvider)
+    private _mongodbProvider: IMongodbProvider
   ) {}
 
   public get discovery(): NBusinessAgent.Discovery {
@@ -60,6 +65,30 @@ export class BusinessAgent implements IBusinessAgent {
       },
       debug: (msg: unknown): void => {
         this._loggerService.appDebug(msg);
+      },
+    };
+  }
+
+  public get mongoose(): NBusinessAgent.Mongoose {
+    return {
+      create: async <TRawDocType>(
+        model: string,
+        docs: Mongoose.Docs<TRawDocType>,
+        options?: Mongoose.SaveOptions
+      ): Promise<Mongoose.AnyKeys<TRawDocType>> => {
+        return this._mongodbProvider.create(model, docs, options);
+      },
+      aggregate: async <TRowDocType>(
+        model: string,
+        details: NMongodbProvider.AggregateDetails
+      ): Promise<Mongoose.AggregateResult<TRowDocType>> => {
+        return this._mongodbProvider.aggregate<TRowDocType>(model, details);
+      },
+      insertMany: async <TRowDocType>(
+        model: string,
+        details: NMongodbProvider.InsertManyDetails<TRowDocType>
+      ): Promise<Mongoose.InsertManyResult<TRowDocType>> => {
+        return this._mongodbProvider.insertMany<TRowDocType>(model, details);
       },
     };
   }

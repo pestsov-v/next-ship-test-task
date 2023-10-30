@@ -4,6 +4,7 @@ import winston from 'winston';
 import fastify from 'fastify';
 import colors from 'colors';
 import async_hooks from 'async_hooks';
+import mongoose from 'mongoose';
 
 export namespace Inversify {
   export namespace interfaces {
@@ -82,4 +83,41 @@ export namespace Fastify {
 
 export namespace AsyncHooks {
   export type AsyncLocalStorage<T> = async_hooks.AsyncLocalStorage<T>;
+}
+
+export namespace Mongoose {
+  export type MongooseId = mongoose.Types.ObjectId;
+  export type Document = mongoose.Document<string>;
+  export type Mongoose = mongoose.Mongoose;
+  export type ConnectionOptions = mongoose.ConnectOptions;
+
+  export type THydratedDocumentType<TRawDocType> = mongoose.HydratedDocument<TRawDocType>;
+  export type AnyKeys<TRawDocType> = mongoose.AnyKeys<TRawDocType>;
+  export type FlatRecord<TRawDocType> = mongoose.FlatRecord<TRawDocType>;
+  export type SchemaDefinition<T> = mongoose.SchemaDefinition<T>;
+  export type SchemaOptions<
+    DocType = mongoose.FlatRecord<DocType>,
+    TInstanceMethods = {},
+    TQueryHelpers = {},
+    TStaticMethods = {},
+    TVirtuals = {},
+    THydratedDocumentType = THydratedDocumentType<DocType>
+  > = mongoose.SchemaOptions<
+    DocType,
+    TInstanceMethods,
+    TQueryHelpers,
+    TStaticMethods,
+    TVirtuals,
+    THydratedDocumentType
+  >;
+
+  export type SaveOptions = mongoose.SaveOptions;
+  export type PipelineStage = mongoose.PipelineStage;
+  export type AggregateOptions = mongoose.AggregateOptions;
+  export type AggregateResult<TRowDocType> = mongoose.Aggregate<Array<TRowDocType>>;
+  export type Docs<TRawDocType, DocContents = AnyKeys<TRawDocType>> = Array<
+    TRawDocType | DocContents
+  >;
+  export type InsertManyOptions = mongoose.InsertManyOptions & { lean: true };
+  export type InsertManyResult<TRawDocType> = mongodb.InsertManyResult<TRawDocType>;
 }

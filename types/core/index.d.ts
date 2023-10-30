@@ -6,3 +6,4 @@ export * from './factories';
 export * from './agents';
 export * from './loaders';
 export * from './abstract-documents';
+export * from './providers';

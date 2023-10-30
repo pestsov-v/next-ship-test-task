@@ -1,8 +1,12 @@
 import { NDiscoveryService, NLoggerService } from '../services';
 
+import { NMongodbProvider } from '../providers';
+import { Mongoose } from '@Packages/Types';
+
 export interface IBusinessAgent {
   readonly discovery: NBusinessAgent.Discovery;
   readonly logger: NBusinessAgent.Logger;
+  readonly mongoose: NBusinessAgent.Mongoose;
 }
 
 export namespace NBusinessAgent {
@@ -16,5 +20,21 @@ export namespace NBusinessAgent {
     error: (error: NLoggerService.Error) => void;
     info: (msg: string) => void;
     debug: (msg: unknown) => void;
+  };
+
+  export type Mongoose = {
+    create<TRawDocType>(
+      model: string,
+      docs: Mongoose.Docs<TRawDocType>,
+      options?: Mongoose.SaveOptions
+    ): Promise<Mongoose.AnyKeys<TRawDocType>>;
+    aggregate: <TRowDocType>(
+      model: string,
+      details: NMongodbProvider.AggregateDetails
+    ) => Promise<Mongoose.AggregateResult<TRowDocType>>;
+    insertMany: <TRowDocType>(
+      model: string,
+      details: NMongodbProvider.InsertManyDetails<TRowDocType>
+    ) => Promise<Mongoose.InsertManyResult<TRowDocType>>;
   };
 }
