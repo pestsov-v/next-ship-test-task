@@ -14,10 +14,12 @@
     "reflect-metadata": "^0.1.13",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "nconf": "^0.12.0"
   },
   "devDependencies": {
     "@types/node": "^20.8.9",
+    "@types/nconf": "^0.10.5",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
     "eslint": "^8.34.0",
