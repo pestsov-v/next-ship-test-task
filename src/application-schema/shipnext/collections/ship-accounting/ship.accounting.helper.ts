@@ -58,13 +58,10 @@ export class ShipAccountingHelper implements NShipAccounting.IHelper {
   private _parseEmployeeFields(fields: string): Nullable<NShipAccounting.Employee> {
     if (fields.trim().length > 0) {
       const [_, id, name, surname] = fields.split('\n');
-      const [__, idValue] = id.trim().split(': ');
-      const [___, nameValue] = name.trim().split(': ');
-      const [____, surnameValue] = surname.trim().split(': ');
       return {
-        id: idValue,
-        name: nameValue,
-        surname: surnameValue,
+        id: this._getValueFromSplit(id),
+        name: this._getValueFromSplit(name),
+        surname: this._getValueFromSplit(surname),
       };
     } else {
       return null;
@@ -73,39 +70,31 @@ export class ShipAccountingHelper implements NShipAccounting.IHelper {
 
   private _parseDepartmentFields(fields: string): NShipAccounting.Department {
     const [_, id, department] = fields.split('\n');
-    const [__, idValue] = id.trim().split(': ');
-    const [___, departmentValue] = department.trim().split(': ');
 
     return {
-      id: idValue,
-      name: departmentValue,
+      id: this._getValueFromSplit(id),
+      name: this._getValueFromSplit(department),
     };
   }
 
   private _parseStatementFields(fields: string): NShipAccounting.Statement {
     const [_, id, amount, date] = fields.split('\n');
 
-    const [__, idValue] = id.trim().split(': ');
-    const [___, amountValue] = amount.trim().split(': ');
-    const [____, dateValue] = date.trim().split(': ');
-
     return {
-      id: idValue,
-      amount: Number(amountValue),
-      date: new Date(dateValue),
+      id: this._getValueFromSplit(id),
+      amount: Number(this._getValueFromSplit(amount)),
+      date: new Date(this._getValueFromSplit(date)),
     };
   }
 
   private _parseDonationFields = (fields: string): NShipAccounting.Donation => {
     const [_, id, date, amount] = fields.trim().split('\n');
-    const [__, idValue] = id.trim().split(': ');
-    const [___, dateValue] = date.trim().split(': ');
-    const [____, amountValue] = amount.trim().split(': ');
+    const [__, amountValue] = amount.trim().split(': ');
     const [salary, rate] = amountValue.trim().split(' ');
 
     return {
-      id: idValue,
-      date: new Date(dateValue),
+      id: this._getValueFromSplit(id),
+      date: new Date(this._getValueFromSplit(date)),
       amount: Number(salary),
       rate: rate,
     };
@@ -114,17 +103,18 @@ export class ShipAccountingHelper implements NShipAccounting.IHelper {
   private _parseRateFields = (fields: string): Nullable<NShipAccounting.Rate> => {
     const [date, sign, value] = fields.trim().split('\n');
     if (typeof date === 'string' && typeof sign === 'string' && typeof value === 'string') {
-      const [_, dateValue] = date.trim().split(': ');
-      const [__, signValue] = sign.trim().split(': ');
-      const [___, valueValue] = value.trim().split(': ');
-
       return {
-        date: new Date(dateValue),
-        sign: signValue,
-        value: Number(valueValue),
+        date: new Date(this._getValueFromSplit(date)),
+        sign: this._getValueFromSplit(sign),
+        value: Number(this._getValueFromSplit(value)),
       };
     } else {
       return null;
     }
   };
+
+  private _getValueFromSplit(str: string) {
+    const [_, value] = str.trim().split(': ');
+    return value;
+  }
 }
