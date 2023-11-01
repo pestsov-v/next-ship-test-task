@@ -28,16 +28,13 @@ export class MongodbProvider implements IMongodbProvider {
   ) {}
 
   public setMongoModel(appSchemas: NApplicationSchemaLoader.CollectionMongoSchema[]): void {
-    // TODO: change from setTimeout to emitter - when dbConnector initialized - emit event and subscribe for this event into provider
-    setTimeout(() => {
-      appSchemas.forEach((appSchema) => {
-        const schema = appSchema.options
-          ? new mongoose.Schema(appSchema.schema, appSchema.options)
-          : new mongoose.Schema(appSchema.schema);
+    appSchemas.forEach((appSchema) => {
+      const schema = appSchema.options
+        ? new mongoose.Schema(appSchema.schema, appSchema.options)
+        : new mongoose.Schema(appSchema.schema);
 
-        this._mongodbConnector.connection.model(appSchema.name, schema);
-      });
-    }, 1000);
+      this._mongodbConnector.connection.model(appSchema.name, schema);
+    });
   }
 
   public async create<TRawDocType>(
